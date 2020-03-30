@@ -1,3 +1,6 @@
-# RedRune Login Server
+# RedRune Social Server
 
-The RedRune login server is essential for validating login requests as well as passing world information to the game server.
+
+### Overview
+
+The social server, which is responsible for managing inter-social aspects of the game, is handled in this project.
