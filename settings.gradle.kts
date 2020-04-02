@@ -1,1 +1,1 @@
-rootProject.name = "redrune-social-server"
+rootProject.name = "redrune-social-core"

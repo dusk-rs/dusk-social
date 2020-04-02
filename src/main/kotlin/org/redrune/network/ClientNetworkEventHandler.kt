@@ -18,7 +18,7 @@ class ClientNetworkEventHandler : ConnectionEvent {
 
     private val logger = InlineLogger()
 
-    override fun onConnect(ctx: ChannelHandlerContext) {
+    override fun onActive(ctx: ChannelHandlerContext) {
         val channel = ctx.channel()
         val session = SocialClientSession(channel)
 
@@ -26,12 +26,12 @@ class ClientNetworkEventHandler : ConnectionEvent {
         session.send(HandshakeBuildConfigurationMessage(MAJOR_BUILD, MINOR_BUILD))
         ctx.fireChannelActive()
 
-        logger.info { "Connection to ${session.getDestinationIp()} made successfully" }
+        logger.info { "Registered to ${session.getDestinationIp()} made successfully" }
     }
 
-    override fun onDisconnect(ctx: ChannelHandlerContext) {
+    override fun onDeregistration(ctx: ChannelHandlerContext) {
         val session = ctx.channel().getSession()
-        logger.info { "Disconnected from ${session.getDestinationIp()} complete " }
+        logger.info { "Deregistered with ${session.getDestinationIp()} complete " }
     }
 
     override fun onException(ctx: ChannelHandlerContext, exception: Throwable) {
@@ -39,6 +39,10 @@ class ClientNetworkEventHandler : ConnectionEvent {
     }
 
     override fun onInactive(ctx: ChannelHandlerContext) {
+
+    }
+
+    override fun onRegistration(ctx: ChannelHandlerContext) {
 
     }
 }

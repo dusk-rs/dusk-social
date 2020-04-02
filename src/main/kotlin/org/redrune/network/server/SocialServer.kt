@@ -2,11 +2,8 @@ package org.redrune.network.server
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.Stopwatch
-import io.netty.handler.logging.LogLevel
-import io.netty.handler.logging.LoggingHandler
 import org.koin.core.context.startKoin
 import org.redrune.core.network.codec.message.decode.OpcodeMessageDecoder
-import org.redrune.core.network.codec.message.encode.RawMessageEncoder
 import org.redrune.core.network.codec.message.encode.SizedMessageEncoder
 import org.redrune.core.network.codec.message.handle.NetworkMessageHandler
 import org.redrune.core.network.codec.packet.decode.SimplePacketDecoder
@@ -49,16 +46,14 @@ class SocialServer {
         val settings = ConnectionSettings("localhost", SOCIAL_PORT_ID)
         val server = NetworkServer(settings)
         val pipeline = ConnectionPipeline {
-            it.addLast("logger", LoggingHandler(LogLevel.INFO))
             it.addLast("packet.decoder", SimplePacketDecoder(SocialServerHandshakeCodec))
             it.addLast("message.decoder", OpcodeMessageDecoder(SocialServerHandshakeCodec))
-           /* it.addLast(
+            it.addLast(
                 "message.handler", NetworkMessageHandler(
                     SocialServerHandshakeCodec,
                     ServerNetworkEventHandler()
                 )
-            )*/
-            it.addLast("message.handler", Test(SocialServerHandshakeCodec))
+            )
             it.addLast("message.encoder", SizedMessageEncoder(SocialServerHandshakeCodec))
         }
         loadCodecs(SocialServerHandshakeCodec)

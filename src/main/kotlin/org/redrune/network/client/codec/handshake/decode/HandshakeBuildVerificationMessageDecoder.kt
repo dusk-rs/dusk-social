@@ -12,7 +12,7 @@ import org.redrune.utility.SocialOpcodes
  * @author Tyluur <contact@kiaira.tech>
  * @since April 01, 2020
  */
-@PacketMetaData(opcodes = [SocialOpcodes.BUILD_VERIFICATION_OPCODE], length = VARIABLE_LENGTH_BYTE)
+@PacketMetaData(opcodes = [SocialOpcodes.BUILD_VERIFICATION_OPCODE], length = 1)
 class HandshakeBuildVerificationMessageDecoder :
     SocialClientHandshakeMessageDecoder<HandshakeBuildVerificationMessage>() {
 

@@ -22,22 +22,28 @@ class ServerNetworkEventHandler : ConnectionEvent {
      */
     private val manager by inject<SocialManager>()
 
-    override fun onConnect(ctx: ChannelHandlerContext) {
+    override fun onActive(ctx: ChannelHandlerContext) {
         val session = SocialServerSession(ctx.channel())
         ctx.channel().setSession(session)
         logger.info { "Session $session has just connected" }
     }
 
-    override fun onDisconnect(ctx: ChannelHandlerContext) {
+    override fun onRegistration(ctx: ChannelHandlerContext) {
+        val session = SocialServerSession(ctx.channel())
+        logger.info { "Registration to ${session.getDestinationIp()} succeeded" }
+    }
+
+    override fun onDeregistration(ctx: ChannelHandlerContext) {
         val session = ctx.channel().getSession()
         logger.info { "Session $session has just disconnected" }
     }
 
     override fun onException(ctx: ChannelHandlerContext, exception: Throwable) {
-
+        logger.error { exception }
     }
 
     override fun onInactive(ctx: ChannelHandlerContext) {
-
+        val session = ctx.channel().getSession()
+        logger.info { "Session $session is inactive" }
     }
 }

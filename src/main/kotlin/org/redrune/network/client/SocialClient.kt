@@ -2,10 +2,7 @@ package org.redrune.network.client
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.Stopwatch
-import io.netty.handler.logging.LogLevel
-import io.netty.handler.logging.LoggingHandler
 import org.redrune.core.network.codec.message.decode.OpcodeMessageDecoder
-import org.redrune.core.network.codec.message.encode.RawMessageEncoder
 import org.redrune.core.network.codec.message.encode.SizedMessageEncoder
 import org.redrune.core.network.codec.message.handle.NetworkMessageHandler
 import org.redrune.core.network.codec.packet.decode.SimplePacketDecoder
@@ -16,7 +13,6 @@ import org.redrune.core.network.connection.client.NetworkClient
 import org.redrune.core.tools.function.NetworkUtils.Companion.loadCodecs
 import org.redrune.network.ClientNetworkEventHandler
 import org.redrune.network.client.codec.handshake.SocialClientHandshakeCodec
-import org.redrune.utility.SocialConstants
 import org.redrune.utility.SocialConstants.SOCIAL_PORT_ID
 import java.util.concurrent.TimeUnit
 
@@ -32,7 +28,6 @@ class SocialClient {
         val settings = ConnectionSettings("127.0.0.1", SOCIAL_PORT_ID)
         val client = NetworkClient(settings)
         val pipeline = ConnectionPipeline {
-            it.addLast("logger", LoggingHandler(LogLevel.INFO))
             it.addLast("packet.decoder", SimplePacketDecoder(SocialClientHandshakeCodec))
             it.addLast("message.decoder", OpcodeMessageDecoder(SocialClientHandshakeCodec))
             it.addLast(
