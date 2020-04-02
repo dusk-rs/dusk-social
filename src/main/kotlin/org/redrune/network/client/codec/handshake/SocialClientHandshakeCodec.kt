@@ -1,4 +1,4 @@
-package org.redrune.network.social.codec.handshake
+package org.redrune.network.client.codec.handshake
 
 import org.redrune.core.network.codec.Codec
 import org.redrune.core.network.codec.message.MessageDecoder
@@ -8,15 +8,14 @@ import org.redrune.core.network.model.message.Message
 
 /**
  * @author Tyluur <contact@kiaira.tech>
- * @since March 26, 2020
+ * @since March 31, 2020
  */
-object HandshakeCodec : Codec() {
+object SocialClientHandshakeCodec : Codec() {
 
     override fun register() {
-        bindDecoders<HandshakeMessageDecoder<*>>()
-        bindHandlers<HandshakeMessageHandler<*>>()
-        bindEncoders<HandshakeMessageEncoder<*>>()
-        report()
+        bindDecoders<SocialClientHandshakeMessageDecoder<*>>()
+        bindHandlers<SocialClientHandshakeMessageHandler<*>>()
+        bindEncoders<SocialClientHandshakeMessageEncoder<*>>()
     }
 
 }
@@ -25,16 +24,16 @@ object HandshakeCodec : Codec() {
  * @author Tyluur <contact@kiaira.tech>
  * @since March 26, 2020
  */
-abstract class HandshakeMessageDecoder<M : Message> : MessageDecoder<M>()
+abstract class SocialClientHandshakeMessageDecoder<M : Message> : MessageDecoder<M>()
 
 /**
  * @author Tyluur <contact@kiaira.tech>
  * @since March 26, 2020
  */
-abstract class HandshakeMessageHandler<M : Message> : MessageHandler<M>()
+abstract class SocialClientHandshakeMessageHandler<M : Message> : MessageHandler<M>()
 
 /**
  * @author Tyluur <contact@kiaira.tech>
  * @since March 26, 2020
  */
-abstract class HandshakeMessageEncoder<M : Message> : MessageEncoder<M>()
+abstract class SocialClientHandshakeMessageEncoder<M : Message> : MessageEncoder<M>()

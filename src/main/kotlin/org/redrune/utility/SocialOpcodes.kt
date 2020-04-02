@@ -7,7 +7,12 @@ package org.redrune.utility
 object SocialOpcodes {
 
     /**
-     * The opcode which identifies the packet for major and minor build verification
+     * The opcode which identifies the packet for major and minor build configuration
+     */
+    const val BUILD_CONFIGURATION_OPCODE = 1
+
+    /**
+     * The opcode which identifies the packet which sends the verification message
      */
     const val BUILD_VERIFICATION_OPCODE = 1
 }
