@@ -1,6 +1,6 @@
-# RedRune Social Server
+# RedRune Social Code
 
 
 ### Overview
 
-The social server, which is responsible for managing inter-social aspects of the game, is handled in this project.
+The social core provides functionality for the social server as well as an interface for implementing interactions on the social-client side.
