@@ -1,4 +1,4 @@
-# RedRune Social Code
+# RedRune Social Core
 
 
 ### Overview
