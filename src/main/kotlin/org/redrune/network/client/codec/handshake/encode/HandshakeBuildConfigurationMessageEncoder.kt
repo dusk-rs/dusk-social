@@ -5,6 +5,7 @@ import org.redrune.core.network.model.packet.PacketType
 import org.redrune.network.client.codec.handshake.SocialClientHandshakeMessageEncoder
 import org.redrune.network.client.codec.handshake.encode.message.HandshakeBuildConfigurationMessage
 import org.redrune.utility.SocialOpcodes
+import org.redrune.utility.SocialOpcodes.BUILD_CONFIGURATION_OPCODE
 
 /**
  * @author Tyluur <contact@kiaira.tech>
@@ -14,7 +15,7 @@ class HandshakeBuildConfigurationMessageEncoder :
     SocialClientHandshakeMessageEncoder<HandshakeBuildConfigurationMessage>() {
 
     override fun encode(builder: PacketBuilder, msg: HandshakeBuildConfigurationMessage) {
-        builder.writeOpcode(SocialOpcodes.BUILD_CONFIGURATION_OPCODE, PacketType.FIXED)
+        builder.writeOpcode(BUILD_CONFIGURATION_OPCODE, PacketType.FIXED)
         builder.writeByte(msg.buildMajor)
         builder.writeByte(msg.buildMinor)
     }

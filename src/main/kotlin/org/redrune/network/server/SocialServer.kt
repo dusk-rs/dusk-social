@@ -13,6 +13,9 @@ import org.redrune.core.network.connection.server.NetworkServer
 import org.redrune.core.tools.function.NetworkUtils.Companion.loadCodecs
 import org.redrune.network.ServerNetworkEventHandler
 import org.redrune.network.server.codec.handshake.SocialServerHandshakeCodec
+import org.redrune.network.server.codec.handshake.SocialServerHandshakeSession
+import org.redrune.network.server.codec.identification.SocialServerIdentificationCodec
+import org.redrune.network.server.codec.relay.SocialServerRelayCodec
 import org.redrune.social.SocialManager
 import org.redrune.social.managerModule
 import org.redrune.utility.SocialConstants
@@ -46,17 +49,18 @@ class SocialServer {
         val settings = ConnectionSettings("localhost", SOCIAL_PORT_ID)
         val server = NetworkServer(settings)
         val pipeline = ConnectionPipeline {
+            val session = SocialServerHandshakeSession(it.channel())
             it.addLast("packet.decoder", SimplePacketDecoder(SocialServerHandshakeCodec))
             it.addLast("message.decoder", OpcodeMessageDecoder(SocialServerHandshakeCodec))
             it.addLast(
                 "message.handler", NetworkMessageHandler(
                     SocialServerHandshakeCodec,
-                    ServerNetworkEventHandler()
+                    ServerNetworkEventHandler(session)
                 )
             )
             it.addLast("message.encoder", SizedMessageEncoder(SocialServerHandshakeCodec))
         }
-        loadCodecs(SocialServerHandshakeCodec)
+        loadCodecs(SocialServerHandshakeCodec, SocialServerIdentificationCodec, SocialServerRelayCodec)
         server.configure(pipeline)
         server.start()
     }

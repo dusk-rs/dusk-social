@@ -4,8 +4,8 @@ import com.github.michaelbull.logging.InlineLogger
 import io.netty.channel.ChannelHandlerContext
 import org.redrune.core.network.model.session.getSession
 import org.redrune.network.client.codec.handshake.encode.message.HandshakeBuildConfigurationMessage
-import org.redrune.network.server.SocialServerSession
 import org.redrune.network.server.codec.handshake.SocialServerHandshakeMessageHandler
+import org.redrune.network.server.codec.handshake.SocialServerHandshakeSession
 import org.redrune.network.server.codec.handshake.encode.message.HandshakeBuildVerificationMessage
 import org.redrune.utility.SocialConstants
 
@@ -20,14 +20,15 @@ class HandshakeBuildConfigurationMessageHandler :
 
     override fun handle(ctx: ChannelHandlerContext, msg: HandshakeBuildConfigurationMessage) {
         if (msg.buildMajor != SocialConstants.MAJOR_BUILD) {
+            logger.info { "Build major ${msg.buildMajor} received, denied handshake!" }
             return
         }
         if (msg.buildMinor != SocialConstants.MINOR_BUILD) {
+            logger.info { "Build minor ${msg.buildMinor} received, denied handshake!" }
             return
         }
-        val session = ctx.channel().getSession() as SocialServerSession
-        session.verify()
-        session.send(HandshakeBuildVerificationMessage(true))
+        val session = ctx.channel().getSession() as SocialServerHandshakeSession
+        session.onSuccession()
         logger.info { "Session $session verified " }
     }
 

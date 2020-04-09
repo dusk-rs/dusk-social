@@ -20,12 +20,12 @@ class SocialWorldRepository {
      * Adding a [World] is done by its the unique [World.pair] combination.
      * @return Boolean On successful addition
      */
-    fun addWorld(world: World): Boolean {
-        val pair = world.pair
+    fun addWorld(id: Int, type: WorldType): Boolean {
+        val pair = Pair(id, type)
         if (connectedWorlds.containsKey(pair)) {
             return false
         }
-        connectedWorlds[pair] = world
+        connectedWorlds[pair] = World(id, type)
         return true
     }
 

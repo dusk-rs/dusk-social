@@ -7,12 +7,13 @@ import org.redrune.core.network.model.packet.PacketType.Companion.VARIABLE_LENGT
 import org.redrune.network.client.codec.handshake.SocialClientHandshakeMessageDecoder
 import org.redrune.network.server.codec.handshake.encode.message.HandshakeBuildVerificationMessage
 import org.redrune.utility.SocialOpcodes
+import org.redrune.utility.SocialOpcodes.BUILD_VERIFICATION_OPCODE
 
 /**
  * @author Tyluur <contact@kiaira.tech>
  * @since April 01, 2020
  */
-@PacketMetaData(opcodes = [SocialOpcodes.BUILD_VERIFICATION_OPCODE], length = 1)
+@PacketMetaData(opcodes = [BUILD_VERIFICATION_OPCODE], length = 1)
 class HandshakeBuildVerificationMessageDecoder :
     SocialClientHandshakeMessageDecoder<HandshakeBuildVerificationMessage>() {
 

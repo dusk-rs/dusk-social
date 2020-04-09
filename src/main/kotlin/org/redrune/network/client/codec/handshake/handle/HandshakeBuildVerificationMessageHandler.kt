@@ -3,10 +3,8 @@ package org.redrune.network.client.codec.handshake.handle
 import com.github.michaelbull.logging.InlineLogger
 import io.netty.channel.ChannelHandlerContext
 import org.redrune.core.network.model.session.getSession
-import org.redrune.network.client.SocialClientSession
 import org.redrune.network.client.codec.handshake.SocialClientHandshakeMessageHandler
-import org.redrune.network.server.SocialServerSession
-import org.redrune.network.server.codec.handshake.SocialServerHandshakeMessageHandler
+import org.redrune.network.client.codec.handshake.SocialClientHandshakeSession
 import org.redrune.network.server.codec.handshake.encode.message.HandshakeBuildVerificationMessage
 
 /**
@@ -19,11 +17,12 @@ class HandshakeBuildVerificationMessageHandler :
     private val logger = InlineLogger()
 
     override fun handle(ctx: ChannelHandlerContext, msg: HandshakeBuildVerificationMessage) {
-        val session = ctx.channel().getSession() as SocialClientSession
+        val session = ctx.channel().getSession() as SocialClientHandshakeSession
         if (!msg.verified) {
             logger.info { "Verification with session $session failed." }
             return
         }
-        logger.info { "Handshake complete and verified"}
+        session.onSuccession()
+        logger.info { "Handshake complete and verified" }
     }
 }
