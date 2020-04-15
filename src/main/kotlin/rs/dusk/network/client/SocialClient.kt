@@ -2,20 +2,22 @@ package rs.dusk.network.client
 
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.Stopwatch
-import org.redrune.core.network.codec.message.decode.OpcodeMessageDecoder
-import org.redrune.core.network.codec.message.encode.SizedMessageEncoder
-import org.redrune.core.network.codec.message.handle.NetworkMessageHandler
-import org.redrune.core.network.codec.packet.decode.SimplePacketDecoder
-import org.redrune.core.network.connection.ConnectionPipeline
-import org.redrune.core.network.connection.ConnectionSettings
-import org.redrune.core.network.connection.ReconnectionAdapter
-import org.redrune.core.network.connection.client.NetworkClient
-import org.redrune.core.tools.function.NetworkUtils.Companion.loadCodecs
-import org.redrune.network.client.codec.handshake.SocialClientHandshakeCodec
-import org.redrune.network.client.codec.handshake.SocialClientHandshakeSession
-import org.redrune.network.client.codec.identification.SocialClientIdentificationCodec
-import org.redrune.social.world.WorldType
-import org.redrune.utility.SocialConstants.SOCIAL_PORT_ID
+import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
+import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
+import rs.dusk.core.network.codec.message.handle.NetworkMessageHandler
+import rs.dusk.core.network.codec.packet.access.PacketBuilder
+import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
+import rs.dusk.core.network.connection.ConnectionPipeline
+import rs.dusk.core.network.connection.ConnectionSettings
+import rs.dusk.core.network.connection.ReconnectionAdapter
+import rs.dusk.core.network.connection.client.NetworkClient
+import rs.dusk.core.tools.function.NetworkUtils.Companion.loadCodecs
+import rs.dusk.network.ClientNetworkEventHandler
+import rs.dusk.network.client.codec.handshake.SocialClientHandshakeCodec
+import rs.dusk.network.client.codec.handshake.SocialClientHandshakeSession
+import rs.dusk.network.client.codec.identification.SocialClientIdentificationCodec
+import rs.dusk.social.world.WorldType
+import rs.dusk.utility.SocialConstants.SOCIAL_PORT_ID
 import java.util.concurrent.TimeUnit
 
 /**
@@ -38,10 +40,13 @@ class SocialClient(val id: Int, val type: WorldType) {
                 "message.handler",
                 NetworkMessageHandler(
                     SocialClientHandshakeCodec,
-                    _root_ide_package_.rs.dusk.network.ClientNetworkEventHandler(session)
+                    ClientNetworkEventHandler(session)
                 )
             )
-            it.addLast("message.encoder", SizedMessageEncoder(SocialClientHandshakeCodec))
+            it.addLast(
+                "message.encoder",
+                GenericMessageEncoder(SocialClientHandshakeCodec, PacketBuilder(sized = true))
+            )
             it.addLast("connection.listener", ReconnectionAdapter(client, 10_000L, 5))
         }
         loadCodecs(SocialClientHandshakeCodec, SocialClientIdentificationCodec)

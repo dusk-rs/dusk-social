@@ -1,6 +1,6 @@
 package rs.dusk.network.client.codec.identification.encode.message
 
-import org.redrune.core.network.model.message.Message
+import rs.dusk.core.network.model.message.Message
 
 /**
  * This message contains the information of a world
@@ -15,7 +15,7 @@ data class WorldIdentificationMessage(
     val id: Byte,
 
     /**
-     * The [org.redrune.social.world.WorldType] index value of the world to identify
+     * The [rs.dusk.social.world.WorldType] index value of the world to identify
      */
     val type: Byte
 ) : Message

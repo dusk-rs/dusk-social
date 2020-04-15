@@ -3,23 +3,25 @@ package rs.dusk.network.server
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.Stopwatch
 import org.koin.core.context.startKoin
-import org.redrune.core.network.codec.message.decode.OpcodeMessageDecoder
-import org.redrune.core.network.codec.message.encode.SizedMessageEncoder
-import org.redrune.core.network.codec.message.handle.NetworkMessageHandler
-import org.redrune.core.network.codec.packet.decode.SimplePacketDecoder
-import org.redrune.core.network.connection.ConnectionPipeline
-import org.redrune.core.network.connection.ConnectionSettings
-import org.redrune.core.network.connection.server.NetworkServer
-import org.redrune.core.tools.function.NetworkUtils.Companion.loadCodecs
-import org.redrune.network.server.codec.handshake.SocialServerHandshakeCodec
-import org.redrune.network.server.codec.handshake.SocialServerHandshakeSession
-import org.redrune.network.server.codec.identification.SocialServerIdentificationCodec
-import org.redrune.network.server.codec.relay.SocialServerRelayCodec
-import org.redrune.social.SocialManager
-import org.redrune.social.managerModule
-import org.redrune.utility.SocialConstants
-import org.redrune.utility.SocialConstants.SOCIAL_PORT_ID
-import org.redrune.utility.get
+import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
+import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
+import rs.dusk.core.network.codec.message.handle.NetworkMessageHandler
+import rs.dusk.core.network.codec.packet.access.PacketBuilder
+import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
+import rs.dusk.core.network.connection.ConnectionPipeline
+import rs.dusk.core.network.connection.ConnectionSettings
+import rs.dusk.core.network.connection.server.NetworkServer
+import rs.dusk.core.tools.function.NetworkUtils.Companion.loadCodecs
+import rs.dusk.network.ServerNetworkEventHandler
+import rs.dusk.network.server.codec.handshake.SocialServerHandshakeCodec
+import rs.dusk.network.server.codec.handshake.SocialServerHandshakeSession
+import rs.dusk.network.server.codec.identification.SocialServerIdentificationCodec
+import rs.dusk.network.server.codec.relay.SocialServerRelayCodec
+import rs.dusk.social.SocialManager
+import rs.dusk.social.managerModule
+import rs.dusk.utility.SocialConstants
+import rs.dusk.utility.SocialConstants.SOCIAL_PORT_ID
+import rs.dusk.utility.get
 import java.util.concurrent.TimeUnit
 
 /**
@@ -54,10 +56,13 @@ class SocialServer {
             it.addLast(
                 "message.handler", NetworkMessageHandler(
                     SocialServerHandshakeCodec,
-                    _root_ide_package_.rs.dusk.network.ServerNetworkEventHandler(session)
+                    ServerNetworkEventHandler(session)
                 )
             )
-            it.addLast("message.encoder", SizedMessageEncoder(SocialServerHandshakeCodec))
+            it.addLast(
+                "message.encoder",
+                GenericMessageEncoder(SocialServerHandshakeCodec, PacketBuilder(sized = true))
+            )
         }
         loadCodecs(SocialServerHandshakeCodec, SocialServerIdentificationCodec, SocialServerRelayCodec)
         server.configure(pipeline)

@@ -1,8 +1,8 @@
 package rs.dusk.network.client.codec.identification
 
 import io.netty.channel.Channel
-import org.redrune.core.network.model.session.Session
-import org.redrune.core.network.model.session.type.VerifiableSession
+import rs.dusk.core.network.model.session.Session
+import rs.dusk.core.network.model.session.type.VerifiableSession
 
 /**
  * @author Tyluur <contact@kiaira.tech>

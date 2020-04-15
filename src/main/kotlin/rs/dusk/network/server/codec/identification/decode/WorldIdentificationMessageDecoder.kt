@@ -1,11 +1,11 @@
 package rs.dusk.network.server.codec.identification.decode
 
-import org.redrune.core.network.codec.packet.access.PacketReader
-import org.redrune.core.network.model.packet.PacketMetaData
-import org.redrune.network.client.codec.identification.encode.message.WorldIdentificationMessage
-import org.redrune.network.server.codec.identification.SocialServerIdentificationMessageDecoder
-import org.redrune.social.world.WorldType
-import org.redrune.utility.SocialOpcodes.IDENTIFICATION_MESSAGE_OPCODE
+import rs.dusk.core.network.codec.packet.access.PacketReader
+import rs.dusk.core.network.model.packet.PacketMetaData
+import rs.dusk.network.client.codec.identification.encode.message.WorldIdentificationMessage
+import rs.dusk.network.server.codec.identification.SocialServerIdentificationMessageDecoder
+import rs.dusk.social.world.WorldType
+import rs.dusk.utility.SocialOpcodes.IDENTIFICATION_MESSAGE_OPCODE
 
 /**
  * @author Tyluur <contact@kiaira.tech>

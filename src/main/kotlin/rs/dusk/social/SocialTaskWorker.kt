@@ -1,8 +1,8 @@
 package rs.dusk.social
 
 import com.github.michaelbull.logging.InlineLogger
-import org.redrune.social.event.server.SocialServerEvent
-import org.redrune.utility.inject
+import rs.dusk.social.event.server.SocialServerEvent
+import rs.dusk.utility.inject
 import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit

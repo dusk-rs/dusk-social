@@ -2,13 +2,13 @@ package rs.dusk.network.server.codec.identification.handle
 
 import com.github.michaelbull.logging.InlineLogger
 import io.netty.channel.ChannelHandlerContext
-import org.redrune.core.network.model.session.getSession
-import org.redrune.network.client.codec.identification.encode.message.WorldIdentificationMessage
-import org.redrune.network.server.codec.identification.SocialServerIdentificationMessageHandler
-import org.redrune.network.server.codec.identification.SocialServerIdentificationSession
-import org.redrune.social.SocialManager
-import org.redrune.social.world.WorldType
-import org.redrune.utility.inject
+import rs.dusk.core.network.model.session.getSession
+import rs.dusk.network.client.codec.identification.encode.message.WorldIdentificationMessage
+import rs.dusk.network.server.codec.identification.SocialServerIdentificationMessageHandler
+import rs.dusk.network.server.codec.identification.SocialServerIdentificationSession
+import rs.dusk.social.SocialManager
+import rs.dusk.social.world.WorldType
+import rs.dusk.utility.inject
 
 /**
  * @author Tyluur <contact@kiaira.tech>

@@ -2,12 +2,11 @@ package rs.dusk.network.server.codec.handshake.handle
 
 import com.github.michaelbull.logging.InlineLogger
 import io.netty.channel.ChannelHandlerContext
-import org.redrune.core.network.model.session.getSession
-import org.redrune.network.client.codec.handshake.encode.message.HandshakeBuildConfigurationMessage
-import org.redrune.network.server.codec.handshake.SocialServerHandshakeMessageHandler
-import org.redrune.network.server.codec.handshake.SocialServerHandshakeSession
-import org.redrune.network.server.codec.handshake.encode.message.HandshakeBuildVerificationMessage
-import org.redrune.utility.SocialConstants
+import rs.dusk.core.network.model.session.getSession
+import rs.dusk.network.client.codec.handshake.encode.message.HandshakeBuildConfigurationMessage
+import rs.dusk.network.server.codec.handshake.SocialServerHandshakeMessageHandler
+import rs.dusk.network.server.codec.handshake.SocialServerHandshakeSession
+import rs.dusk.utility.SocialConstants
 
 /**
  * @author Tyluur <contact@kiaira.tech>

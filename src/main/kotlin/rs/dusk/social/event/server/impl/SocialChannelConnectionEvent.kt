@@ -1,6 +1,6 @@
 package rs.dusk.social.event.server.impl
 
-import org.redrune.social.event.server.SocialServerEvent
+import rs.dusk.social.event.server.SocialServerEvent
 
 /**
  * @author Tyluur <contact@kiaira.tech>

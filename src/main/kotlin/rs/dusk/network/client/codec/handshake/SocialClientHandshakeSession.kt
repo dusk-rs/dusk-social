@@ -1,16 +1,18 @@
 package rs.dusk.network.client.codec.handshake
 
 import io.netty.channel.Channel
-import org.redrune.core.network.codec.message.decode.OpcodeMessageDecoder
-import org.redrune.core.network.codec.message.encode.SizedMessageEncoder
-import org.redrune.core.network.codec.message.handle.NetworkMessageHandler
-import org.redrune.core.network.codec.packet.decode.SimplePacketDecoder
-import org.redrune.core.network.model.session.Session
-import org.redrune.core.network.model.session.type.VerifiableSession
-import org.redrune.network.client.codec.identification.SocialClientIdentificationCodec
-import org.redrune.network.client.codec.identification.SocialClientIdentificationSession
-import org.redrune.network.client.codec.identification.encode.message.WorldIdentificationMessage
-import org.redrune.social.world.WorldType
+import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
+import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
+import rs.dusk.core.network.codec.message.handle.NetworkMessageHandler
+import rs.dusk.core.network.codec.packet.access.PacketBuilder
+import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
+import rs.dusk.core.network.model.session.Session
+import rs.dusk.core.network.model.session.type.VerifiableSession
+import rs.dusk.network.ClientNetworkEventHandler
+import rs.dusk.network.client.codec.identification.SocialClientIdentificationCodec
+import rs.dusk.network.client.codec.identification.SocialClientIdentificationSession
+import rs.dusk.network.client.codec.identification.encode.message.WorldIdentificationMessage
+import rs.dusk.social.world.WorldType
 
 /**
  * @author Tyluur <contact@kiaira.tech>
@@ -26,10 +28,13 @@ class SocialClientHandshakeSession(private val channel: Channel) : Session(chann
             "message.handler",
             NetworkMessageHandler(
                 SocialClientIdentificationCodec,
-                _root_ide_package_.rs.dusk.network.ClientNetworkEventHandler(SocialClientIdentificationSession(channel))
+                ClientNetworkEventHandler(SocialClientIdentificationSession(channel))
             )
         )
-        replaceHandler("message.encoder", SizedMessageEncoder(SocialClientIdentificationCodec))
+        replaceHandler(
+            "message.encoder",
+            GenericMessageEncoder(SocialClientIdentificationCodec, PacketBuilder(sized = true))
+        )
 
         // send identification information
         send(WorldIdentificationMessage(1, WorldType.LOBBY.ordinal.toByte()))

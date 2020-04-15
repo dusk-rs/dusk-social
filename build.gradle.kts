@@ -19,6 +19,8 @@ allprojects {
     group = "org.redrune"
     version = "0.0.1"
 
+    java.sourceCompatibility = JavaVersion.VERSION_11
+
     repositories {
         mavenCentral()
         mavenLocal()
@@ -44,7 +46,7 @@ allprojects {
         //Logging
         implementation("org.slf4j:slf4j-api:1.7.30")
         implementation("ch.qos.logback:logback-classic:1.2.3")
-        implementation("org.redrune.core:redrune-network-core:0.0.9")
+        implementation("rs.dusk.core:dusk-shared:0.0.10")
 
         //Utilities
         implementation("com.google.guava:guava:19.0")

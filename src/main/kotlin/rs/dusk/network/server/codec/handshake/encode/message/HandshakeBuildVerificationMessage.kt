@@ -1,6 +1,6 @@
 package rs.dusk.network.server.codec.handshake.encode.message
 
-import org.redrune.core.network.model.message.Message
+import rs.dusk.core.network.model.message.Message
 
 /**
  * This message is used to identify whether handshake was successfully verified.

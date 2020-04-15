@@ -1,10 +1,10 @@
 package rs.dusk.network.server.codec.handshake
 
-import org.redrune.core.network.codec.Codec
-import org.redrune.core.network.codec.message.MessageDecoder
-import org.redrune.core.network.codec.message.MessageEncoder
-import org.redrune.core.network.codec.message.MessageHandler
-import org.redrune.core.network.model.message.Message
+import rs.dusk.core.network.codec.Codec
+import rs.dusk.core.network.codec.message.MessageDecoder
+import rs.dusk.core.network.codec.message.MessageEncoder
+import rs.dusk.core.network.codec.message.MessageHandler
+import rs.dusk.core.network.model.message.Message
 
 /**
  * @author Tyluur <contact@kiaira.tech>

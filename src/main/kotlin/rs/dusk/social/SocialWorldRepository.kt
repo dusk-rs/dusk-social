@@ -1,7 +1,7 @@
 package rs.dusk.social
 
-import org.redrune.social.world.World
-import org.redrune.social.world.WorldType
+import rs.dusk.social.world.World
+import rs.dusk.social.world.WorldType
 
 /**
  * This repository contains data about the game worlds that are currently connected.

@@ -1,8 +1,7 @@
 package rs.dusk.social.event.server
 
-import org.redrune.network.server.SocialServer
-import org.redrune.social.SocialManager
-import org.redrune.utility.inject
+import rs.dusk.social.SocialManager
+import rs.dusk.utility.inject
 
 /**
  * @author Tyluur <contact@kiaira.tech>

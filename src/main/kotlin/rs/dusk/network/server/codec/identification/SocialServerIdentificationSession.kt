@@ -1,13 +1,15 @@
 package rs.dusk.network.server.codec.identification
 
 import io.netty.channel.Channel
-import org.redrune.core.network.codec.message.decode.OpcodeMessageDecoder
-import org.redrune.core.network.codec.message.encode.SizedMessageEncoder
-import org.redrune.core.network.codec.message.handle.NetworkMessageHandler
-import org.redrune.core.network.codec.packet.decode.SimplePacketDecoder
-import org.redrune.core.network.model.session.Session
-import org.redrune.core.network.model.session.type.VerifiableSession
-import org.redrune.network.server.codec.relay.SocialServerRelayCodec
+import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
+import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
+import rs.dusk.core.network.codec.message.handle.NetworkMessageHandler
+import rs.dusk.core.network.codec.packet.access.PacketBuilder
+import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
+import rs.dusk.core.network.model.session.Session
+import rs.dusk.core.network.model.session.type.VerifiableSession
+import rs.dusk.network.ServerNetworkEventHandler
+import rs.dusk.network.server.codec.relay.SocialServerRelayCodec
 
 /**
  * @author Tyluur <contact@kiaira.tech>
@@ -23,10 +25,10 @@ class SocialServerIdentificationSession(private val channel: Channel) : Session(
             "message.handler",
             NetworkMessageHandler(
                 SocialServerIdentificationCodec,
-                _root_ide_package_.rs.dusk.network.ServerNetworkEventHandler(SocialServerIdentificationSession(channel))
+                ServerNetworkEventHandler(SocialServerIdentificationSession(channel))
             )
         )
-        replaceHandler("message.encoder", SizedMessageEncoder(SocialServerRelayCodec))
+        replaceHandler("message.encoder", GenericMessageEncoder(SocialServerRelayCodec, PacketBuilder(sized = true)))
     }
 
     override fun onTimeout() {

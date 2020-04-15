@@ -1,10 +1,10 @@
 package rs.dusk.network.server.codec.handshake.encode
 
-import org.redrune.core.network.codec.packet.access.PacketBuilder
-import org.redrune.core.network.model.packet.PacketType
-import org.redrune.network.server.codec.handshake.SocialServerHandshakeMessageEncoder
-import org.redrune.network.server.codec.handshake.encode.message.HandshakeBuildVerificationMessage
-import org.redrune.utility.SocialOpcodes
+import rs.dusk.core.network.codec.packet.access.PacketWriter
+import rs.dusk.core.network.model.packet.PacketType
+import rs.dusk.network.server.codec.handshake.SocialServerHandshakeMessageEncoder
+import rs.dusk.network.server.codec.handshake.encode.message.HandshakeBuildVerificationMessage
+import rs.dusk.utility.SocialOpcodes
 
 /**
  * @author Tyluur <contact@kiaira.tech>
@@ -12,7 +12,7 @@ import org.redrune.utility.SocialOpcodes
  */
 class HandshakeBuildVerificationMessageEncoder : SocialServerHandshakeMessageEncoder<HandshakeBuildVerificationMessage>() {
 
-    override fun encode(builder: PacketBuilder, msg: HandshakeBuildVerificationMessage) {
+    override fun encode(builder: PacketWriter, msg: HandshakeBuildVerificationMessage) {
         println("encoding msg")
         builder.writeOpcode(SocialOpcodes.BUILD_VERIFICATION_OPCODE, PacketType.FIXED)
         builder.writeByte(if (msg.verified) 1 else 0)
