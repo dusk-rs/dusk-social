@@ -1,4 +1,4 @@
-# RedRune Social Core
+# Dusk Social Core
 
 
 ### Overview
