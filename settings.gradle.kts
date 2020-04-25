@@ -1,1 +1,1 @@
-rootProject.name = "dusk-social-server"
+rootProject.name = "dusk-social"

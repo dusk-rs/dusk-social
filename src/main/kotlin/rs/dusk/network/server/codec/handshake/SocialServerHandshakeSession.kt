@@ -9,7 +9,7 @@ import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
 import rs.dusk.core.network.model.session.Session
 import rs.dusk.core.network.model.session.setSession
 import rs.dusk.core.network.model.session.type.VerifiableSession
-import rs.dusk.network.ServerNetworkEventHandler
+import rs.dusk.network.server.SocialServerConnectionEventHandler
 import rs.dusk.network.server.codec.handshake.encode.message.HandshakeBuildVerificationMessage
 import rs.dusk.network.server.codec.identification.SocialServerIdentificationCodec
 import rs.dusk.network.server.codec.identification.SocialServerIdentificationSession
@@ -34,7 +34,7 @@ class SocialServerHandshakeSession(private val channel: Channel) : Session(chann
             "message.handler",
             NetworkMessageHandler(
                 SocialServerIdentificationCodec,
-                ServerNetworkEventHandler(session)
+                SocialServerConnectionEventHandler(session)
             )
         )
         replaceHandler(

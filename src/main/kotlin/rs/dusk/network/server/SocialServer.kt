@@ -12,16 +12,13 @@ import rs.dusk.core.network.connection.ConnectionPipeline
 import rs.dusk.core.network.connection.ConnectionSettings
 import rs.dusk.core.network.connection.server.NetworkServer
 import rs.dusk.core.tools.function.NetworkUtils.Companion.loadCodecs
-import rs.dusk.network.ServerNetworkEventHandler
 import rs.dusk.network.server.codec.handshake.SocialServerHandshakeCodec
 import rs.dusk.network.server.codec.handshake.SocialServerHandshakeSession
 import rs.dusk.network.server.codec.identification.SocialServerIdentificationCodec
 import rs.dusk.network.server.codec.relay.SocialServerRelayCodec
-import rs.dusk.social.SocialManager
-import rs.dusk.social.managerModule
+import rs.dusk.social.server.managerModule
 import rs.dusk.utility.SocialConstants
 import rs.dusk.utility.SocialConstants.SOCIAL_PORT_ID
-import rs.dusk.utility.get
 import java.util.concurrent.TimeUnit
 
 /**
@@ -39,8 +36,6 @@ class SocialServer {
         startKoin {
             modules(managerModule)
         }
-        val module: SocialManager = get()
-        module.run()
     }
 
     /**
@@ -56,7 +51,7 @@ class SocialServer {
             it.addLast(
                 "message.handler", NetworkMessageHandler(
                     SocialServerHandshakeCodec,
-                    ServerNetworkEventHandler(session)
+                    SocialServerConnectionEventHandler(session)
                 )
             )
             it.addLast(

@@ -19,12 +19,6 @@ data class World(
 ) {
 
     /**
-     * If the server has been verified yet.
-     * This is necessary for the processing of interactive packets.
-     */
-    val verified = false
-
-    /**
      * The players on the world
      */
     val players = mutableListOf<WorldPlayer>()

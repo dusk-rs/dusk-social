@@ -12,7 +12,7 @@ data class WorldPlayer(
     val name: String,
 
     /**
-     * The world the player is connected to
+     * The world pair details of the world the player is connected to
      */
-    val worldId: Int
+    val worldPair: Pair<Int, WorldType>
 )

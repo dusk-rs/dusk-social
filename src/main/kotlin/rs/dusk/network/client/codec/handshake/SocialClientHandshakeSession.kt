@@ -7,12 +7,15 @@ import rs.dusk.core.network.codec.message.handle.NetworkMessageHandler
 import rs.dusk.core.network.codec.packet.access.PacketBuilder
 import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
 import rs.dusk.core.network.model.session.Session
+import rs.dusk.core.network.model.session.setSession
 import rs.dusk.core.network.model.session.type.VerifiableSession
-import rs.dusk.network.ClientNetworkEventHandler
+import rs.dusk.network.client.SocialClientConnectionEventHandler
 import rs.dusk.network.client.codec.identification.SocialClientIdentificationCodec
 import rs.dusk.network.client.codec.identification.SocialClientIdentificationSession
 import rs.dusk.network.client.codec.identification.encode.message.WorldIdentificationMessage
+import rs.dusk.social.client.SocialClientManager
 import rs.dusk.social.world.WorldType
+import rs.dusk.utility.inject
 
 /**
  * @author Tyluur <contact@kiaira.tech>
@@ -20,7 +23,11 @@ import rs.dusk.social.world.WorldType
  */
 class SocialClientHandshakeSession(private val channel: Channel) : Session(channel), VerifiableSession {
 
+    private val manager: SocialClientManager by inject()
+
     override fun onSuccession() {
+        val session = SocialClientIdentificationSession(channel)
+
         // update to identification codec
         replaceHandler("packet.decoder", SimplePacketDecoder(SocialClientIdentificationCodec))
         replaceHandler("message.decoder", OpcodeMessageDecoder(SocialClientIdentificationCodec))
@@ -28,16 +35,19 @@ class SocialClientHandshakeSession(private val channel: Channel) : Session(chann
             "message.handler",
             NetworkMessageHandler(
                 SocialClientIdentificationCodec,
-                ClientNetworkEventHandler(SocialClientIdentificationSession(channel))
+                SocialClientConnectionEventHandler(
+                    session
+                )
             )
         )
         replaceHandler(
             "message.encoder",
             GenericMessageEncoder(SocialClientIdentificationCodec, PacketBuilder(sized = true))
         )
+        channel.setSession(session)
 
         // send identification information
-        send(WorldIdentificationMessage(1, WorldType.LOBBY.ordinal.toByte()))
+        send(WorldIdentificationMessage(manager.worldId!!.toByte(), manager.worldType!!.ordinal.toByte()))
     }
 
     override fun onTimeout() {

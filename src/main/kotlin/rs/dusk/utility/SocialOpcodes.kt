@@ -20,4 +20,9 @@ object SocialOpcodes {
      * The opcode which identifies the packet that sends the identification message
      */
     const val IDENTIFICATION_MESSAGE_OPCODE = 2
+
+    /**
+     * The opcode which identifies the packet that sends the identification message
+     */
+    const val IDENTIFICATION_SUCCESSION_MESSAGE_OPCODE = 3
 }

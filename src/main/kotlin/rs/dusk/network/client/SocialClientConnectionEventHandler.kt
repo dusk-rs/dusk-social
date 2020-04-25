@@ -1,4 +1,4 @@
-package rs.dusk.network
+package rs.dusk.network.client
 
 import com.github.michaelbull.logging.InlineLogger
 import io.netty.channel.ChannelHandlerContext
@@ -6,14 +6,16 @@ import rs.dusk.core.network.connection.ConnectionEvent
 import rs.dusk.core.network.model.session.Session
 import rs.dusk.core.network.model.session.setSession
 import rs.dusk.network.client.codec.handshake.encode.message.HandshakeBuildConfigurationMessage
+import rs.dusk.social.client.SocialClientManager
 import rs.dusk.utility.SocialConstants.MAJOR_BUILD
 import rs.dusk.utility.SocialConstants.MINOR_BUILD
+import rs.dusk.utility.inject
 
 /**
  * @author Tyluur <contact@kiaira.tech>
  * @since March 26, 2020
  */
-class ClientNetworkEventHandler(private val session: Session) : ConnectionEvent {
+class SocialClientConnectionEventHandler(private val session: Session) : ConnectionEvent {
 
     private val logger = InlineLogger()
 
