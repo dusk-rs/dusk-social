@@ -10,7 +10,7 @@ import rs.dusk.core.network.model.message.Message
  * @author Tyluur <contact@kiaira.tech>
  * @since April 08, 2020
  */
-object SocialClientIdentificationCodec : Codec() {
+class SocialClientIdentificationCodec : Codec() {
 
     override fun register() {
         bindDecoders<SocialClientIdentificationMessageDecoder<*>>()

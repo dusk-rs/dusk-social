@@ -10,7 +10,7 @@ import rs.dusk.core.network.model.message.Message
  * @author Tyluur <contact@kiaira.tech>
  * @since March 31, 2020
  */
-object SocialClientHandshakeCodec : Codec() {
+class SocialClientHandshakeCodec : Codec() {
 
     override fun register() {
         bindDecoders<SocialClientHandshakeMessageDecoder<*>>()

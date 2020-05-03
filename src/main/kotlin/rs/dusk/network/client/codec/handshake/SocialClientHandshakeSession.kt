@@ -1,21 +1,21 @@
 package rs.dusk.network.client.codec.handshake
 
 import io.netty.channel.Channel
+import rs.dusk.core.network.codec.CodecRepository
+import rs.dusk.core.network.codec.message.MessageReader
 import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
 import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
-import rs.dusk.core.network.codec.message.handle.NetworkMessageHandler
 import rs.dusk.core.network.codec.packet.access.PacketBuilder
 import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
 import rs.dusk.core.network.model.session.Session
 import rs.dusk.core.network.model.session.setSession
 import rs.dusk.core.network.model.session.type.VerifiableSession
-import rs.dusk.network.client.SocialClientConnectionEventHandler
 import rs.dusk.network.client.codec.identification.SocialClientIdentificationCodec
 import rs.dusk.network.client.codec.identification.SocialClientIdentificationSession
 import rs.dusk.network.client.codec.identification.encode.message.WorldIdentificationMessage
 import rs.dusk.social.client.SocialClientManager
-import rs.dusk.social.world.WorldType
 import rs.dusk.utility.inject
+import java.lang.IllegalStateException
 
 /**
  * @author Tyluur <contact@kiaira.tech>
@@ -29,20 +29,14 @@ class SocialClientHandshakeSession(private val channel: Channel) : Session(chann
         val session = SocialClientIdentificationSession(channel)
 
         // update to identification codec
-        replaceHandler("packet.decoder", SimplePacketDecoder(SocialClientIdentificationCodec))
-        replaceHandler("message.decoder", OpcodeMessageDecoder(SocialClientIdentificationCodec))
-        replaceHandler(
-            "message.handler",
-            NetworkMessageHandler(
-                SocialClientIdentificationCodec,
-                SocialClientConnectionEventHandler(
-                    session
-                )
-            )
-        )
+	    val codec = CodecRepository.get(SocialClientIdentificationCodec::class)
+	    
+	    replaceHandler("packet.decoder", SimplePacketDecoder(codec))
+        replaceHandler("message.decoder", OpcodeMessageDecoder(codec))
+        replaceHandler("message.reader", MessageReader(codec))
         replaceHandler(
             "message.encoder",
-            GenericMessageEncoder(SocialClientIdentificationCodec, PacketBuilder(sized = true))
+            GenericMessageEncoder(codec, PacketBuilder(sized = true))
         )
         channel.setSession(session)
 

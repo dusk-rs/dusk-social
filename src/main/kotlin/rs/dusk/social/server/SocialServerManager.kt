@@ -19,7 +19,7 @@ class SocialServerManager {
     /**
      * All of the live sessions
      */
-    private val sessions = mutableMapOf<Session, World>()
+    private val sessions = mutableListOf<Session>()
 
     /**
      * Adding a [World] is done by its the unique [World.pair] combination.

@@ -3,15 +3,16 @@ package rs.dusk.network.server
 import com.github.michaelbull.logging.InlineLogger
 import com.google.common.base.Stopwatch
 import org.koin.core.context.startKoin
+import rs.dusk.core.network.codec.CodecRepository
+import rs.dusk.core.network.codec.message.MessageReader
 import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
 import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
-import rs.dusk.core.network.codec.message.handle.NetworkMessageHandler
 import rs.dusk.core.network.codec.packet.access.PacketBuilder
 import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
 import rs.dusk.core.network.connection.ConnectionPipeline
 import rs.dusk.core.network.connection.ConnectionSettings
 import rs.dusk.core.network.connection.server.NetworkServer
-import rs.dusk.core.tools.function.NetworkUtils.Companion.loadCodecs
+import rs.dusk.network.client.codec.identification.SocialClientIdentificationCodec
 import rs.dusk.network.server.codec.handshake.SocialServerHandshakeCodec
 import rs.dusk.network.server.codec.handshake.SocialServerHandshakeSession
 import rs.dusk.network.server.codec.identification.SocialServerIdentificationCodec
@@ -44,22 +45,25 @@ class SocialServer {
     fun bind() {
         val settings = ConnectionSettings("localhost", SOCIAL_PORT_ID)
         val server = NetworkServer(settings)
+	    val codec = CodecRepository.get(SocialServerHandshakeCodec::class)
+	    
         val pipeline = ConnectionPipeline {
             val session = SocialServerHandshakeSession(it.channel())
-            it.addLast("packet.decoder", SimplePacketDecoder(SocialServerHandshakeCodec))
-            it.addLast("message.decoder", OpcodeMessageDecoder(SocialServerHandshakeCodec))
+            it.addLast("packet.decoder", SimplePacketDecoder(codec))
+            it.addLast("message.decoder", OpcodeMessageDecoder(codec))
             it.addLast(
-                "message.handler", NetworkMessageHandler(
-                    SocialServerHandshakeCodec,
-                    SocialServerConnectionEventHandler(session)
+                "message.reader", MessageReader(
+		            codec
                 )
             )
             it.addLast(
                 "message.encoder",
-                GenericMessageEncoder(SocialServerHandshakeCodec, PacketBuilder(sized = true))
+                GenericMessageEncoder(codec, PacketBuilder(sized = true))
             )
         }
-        loadCodecs(SocialServerHandshakeCodec, SocialServerIdentificationCodec, SocialServerRelayCodec)
+
+        // TODO: update to new codec finding
+//        loadCodecs(SocialServerHandshakeCodec, SocialServerIdentificationCodec, SocialServerRelayCodec)
         server.configure(pipeline)
         server.start()
     }

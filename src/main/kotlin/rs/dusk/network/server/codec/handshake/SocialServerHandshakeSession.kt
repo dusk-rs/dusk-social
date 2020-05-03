@@ -1,9 +1,10 @@
 package rs.dusk.network.server.codec.handshake
 
 import io.netty.channel.Channel
+import rs.dusk.core.network.codec.CodecRepository
+import rs.dusk.core.network.codec.message.MessageReader
 import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
 import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
-import rs.dusk.core.network.codec.message.handle.NetworkMessageHandler
 import rs.dusk.core.network.codec.packet.access.PacketBuilder
 import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
 import rs.dusk.core.network.model.session.Session
@@ -27,19 +28,20 @@ class SocialServerHandshakeSession(private val channel: Channel) : Session(chann
         send(HandshakeBuildVerificationMessage(true))
 
         // update codec to identification
+	    val codec = CodecRepository.get(SocialServerIdentificationCodec::class)
+	    
         val session = SocialServerIdentificationSession(channel)
-        replaceHandler("packet.decoder", SimplePacketDecoder(SocialServerIdentificationCodec))
-        replaceHandler("message.decoder", OpcodeMessageDecoder(SocialServerIdentificationCodec))
+        replaceHandler("packet.decoder", SimplePacketDecoder(codec))
+        replaceHandler("message.decoder", OpcodeMessageDecoder(codec))
         replaceHandler(
-            "message.handler",
-            NetworkMessageHandler(
-                SocialServerIdentificationCodec,
-                SocialServerConnectionEventHandler(session)
+            "message.reader",
+            MessageReader(
+	            codec
             )
         )
         replaceHandler(
             "message.encoder",
-            GenericMessageEncoder(SocialServerIdentificationCodec, PacketBuilder(sized = true))
+            GenericMessageEncoder(codec, PacketBuilder(sized = true))
         )
         channel.setSession(session)
     }

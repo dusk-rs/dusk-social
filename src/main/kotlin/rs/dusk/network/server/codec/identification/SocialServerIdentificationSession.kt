@@ -1,19 +1,18 @@
 package rs.dusk.network.server.codec.identification
 
 import io.netty.channel.Channel
+import rs.dusk.core.network.codec.CodecRepository
+import rs.dusk.core.network.codec.message.MessageReader
 import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
 import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
-import rs.dusk.core.network.codec.message.handle.NetworkMessageHandler
 import rs.dusk.core.network.codec.packet.access.PacketBuilder
 import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
 import rs.dusk.core.network.model.session.Session
 import rs.dusk.core.network.model.session.setSession
 import rs.dusk.core.network.model.session.type.VerifiableSession
-import rs.dusk.network.server.SocialServerConnectionEventHandler
 import rs.dusk.network.server.codec.identification.encode.message.WorldIdentificationSuccessionMessage
 import rs.dusk.network.server.codec.relay.SocialServerRelayCodec
 import rs.dusk.network.server.codec.relay.SocialServerRelaySession
-import rs.dusk.utility.setWorld
 
 /**
  * @author Tyluur <contact@kiaira.tech>
@@ -26,20 +25,19 @@ class SocialServerIdentificationSession(private val channel: Channel) : Session(
         val session = SocialServerRelaySession(channel)
 
         // update codec to relay
-        replaceHandler("packet.decoder", SimplePacketDecoder(SocialServerRelayCodec))
-        replaceHandler("message.decoder", OpcodeMessageDecoder(SocialServerRelayCodec))
+	    val codec = CodecRepository.get(SocialServerRelayCodec::class)
+	    
+        replaceHandler("packet.decoder", SimplePacketDecoder(codec))
+        replaceHandler("message.decoder", OpcodeMessageDecoder(codec))
         replaceHandler(
-            "message.handler",
-            NetworkMessageHandler(
-                SocialServerRelayCodec,
-                SocialServerConnectionEventHandler(
-                    session
-                )
+            "message.reader",
+            MessageReader(
+                codec
             )
         )
         channel.setSession(session)
 
-        replaceHandler("message.encoder", GenericMessageEncoder(SocialServerRelayCodec, PacketBuilder(sized = true)))
+        replaceHandler("message.encoder", GenericMessageEncoder(codec, PacketBuilder(sized = true)))
     }
 
     override fun onTimeout() {
