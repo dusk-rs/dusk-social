@@ -10,7 +10,7 @@ buildscript {
 
 val koinVersion = "2.1.5"
 
-allprojects {
+subprojects {
 	apply(plugin = "kotlin")
 	apply(plugin = "idea")
 	apply(plugin = "org.jetbrains.kotlin.jvm")
@@ -35,6 +35,7 @@ allprojects {
 		implementation(kotlin("reflect"))
 		implementation(group = "org.koin", name = "koin-core", version = koinVersion)
 		implementation(group = "org.koin", name = "koin-logger-slf4j", version = koinVersion)
+		implementation(group = "com.github.ajalt", name = "clikt", version = "2.6.0")
 		
 		//Core
 		implementation(group = "rs.dusk.core", name = "network", version = "0.1.0")

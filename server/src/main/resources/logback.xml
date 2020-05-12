@@ -8,9 +8,10 @@
         </encoder>
     </appender>
 
-    <logger name="reactor.netty" level="DEBUG" />
-
     <root level="info">
         <appender-ref ref="stdout"/>
     </root>
+
+    <logger name="io.netty" level="DEBUG"/>
+
 </configuration>

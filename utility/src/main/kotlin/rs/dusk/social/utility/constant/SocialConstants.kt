@@ -1,4 +1,4 @@
-package rs.dusk.social.utility
+package rs.dusk.social.utility.constant
 
 /**
  * All constants relative to the social server are stored here
@@ -16,10 +16,10 @@ object SocialConstants {
 	/**
 	 * The major build number
 	 */
-	const val MAJOR_BUILD = 1
+	const val BUILD_MAJOR = 1
 	
 	/**
 	 * The minor build number
 	 */
-	const val MINOR_BUILD = 0
+	const val BUILD_MINOR = 0
 }
