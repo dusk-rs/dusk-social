@@ -1,4 +1,4 @@
-package rs.dusk.social.network.client.session
+package rs.dusk.social.network.session
 
 import io.netty.channel.Channel
 import rs.dusk.core.network.model.session.Session
@@ -9,3 +9,4 @@ import rs.dusk.core.network.model.session.Session
  */
 class RelaySession(channel : Channel) : Session(channel) {
 }
+

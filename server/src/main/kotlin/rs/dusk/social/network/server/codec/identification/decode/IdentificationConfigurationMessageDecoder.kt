@@ -13,7 +13,7 @@ import rs.dusk.social.utility.constant.SocialOpcodes.IDENTITY_CONFIGURATION_OPCO
 @PacketMetaData(opcodes = [IDENTITY_CONFIGURATION_OPCODE], length = 1)
 class IdentificationConfigurationMessageDecoder : IdentificationMessageDecoder<IdentificationConfigurationMessage>() {
 	
-	override fun decode(packet : PacketReader) : IdentificationConfigurationMessage {
+	override fun decode(packet : PacketReader) : IdentificationConfigurationMessage = with(packet) {
 		val worldId = packet.readByte()
 		return IdentificationConfigurationMessage(worldId)
 	}

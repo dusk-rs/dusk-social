@@ -38,8 +38,8 @@ subprojects {
 		implementation(group = "com.github.ajalt", name = "clikt", version = "2.6.0")
 		
 		//Core
-		implementation(group = "rs.dusk.core", name = "network", version = "0.1.0")
-		implementation(group = "rs.dusk.core", name = "utility", version = "0.1.0")
+		implementation(group = "rs.dusk.core", name = "network", version = "0.1.1")
+		implementation(group = "rs.dusk.core", name = "utility", version = "0.1.1")
 		implementation(group = "io.netty", name = "netty-all", version = "4.1.44.Final")
 		
 		//Logging

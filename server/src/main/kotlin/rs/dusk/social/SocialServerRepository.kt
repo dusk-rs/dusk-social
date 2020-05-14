@@ -1,7 +1,7 @@
 package rs.dusk.social
 
 import org.koin.dsl.module
-import rs.dusk.social.network.client.session.RelaySession
+import rs.dusk.social.network.session.RelaySession
 
 /**
  * @author Tyluur <contact@kiaira.tech>
