@@ -1,4 +1,4 @@
-package rs.dusk.social.server
+package rs.dusk.social.network.server
 
 import rs.dusk.core.network.connection.ConnectionFactory
 import rs.dusk.core.network.connection.ConnectionPipeline

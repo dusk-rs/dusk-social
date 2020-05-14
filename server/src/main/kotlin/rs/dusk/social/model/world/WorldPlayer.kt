@@ -1,4 +1,4 @@
-package rs.dusk.social.world
+package rs.dusk.social.model.world
 
 /**
  * @author Tyluur <contact@kiaira.tech>

@@ -39,6 +39,7 @@ subprojects {
 		
 		//Core
 		implementation(group = "rs.dusk.core", name = "network", version = "0.1.0")
+		implementation(group = "rs.dusk.core", name = "utility", version = "0.1.0")
 		implementation(group = "io.netty", name = "netty-all", version = "4.1.44.Final")
 		
 		//Logging

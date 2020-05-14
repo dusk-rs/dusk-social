@@ -1,4 +1,4 @@
-package rs.dusk.social.network.codec.handshake.encode.message
+package rs.dusk.social.network.codec.handshake.message
 
 import rs.dusk.core.network.model.message.Message
 

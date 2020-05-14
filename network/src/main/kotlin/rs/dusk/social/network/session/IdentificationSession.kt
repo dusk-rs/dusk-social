@@ -5,6 +5,6 @@ import rs.dusk.core.network.model.session.Session
 
 /**
  * @author Tyluur <contact@kiaira.tech>
- * @since May 11, 2020
+ * @since May 13, 2020
  */
-class HandshakeSession(channel : Channel) : Session(channel)
+class IdentificationSession(channel : Channel) : Session(channel)
