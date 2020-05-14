@@ -7,6 +7,7 @@ import rs.dusk.core.network.codec.CodecRepository
 import rs.dusk.core.network.codec.message.MessageReader
 import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
 import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
+import rs.dusk.core.network.codec.packet.access.PacketBuilder
 import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
 import rs.dusk.core.network.codec.setCodec
 import rs.dusk.core.network.connection.ConnectionPipeline
@@ -59,7 +60,7 @@ class SocialClient(
 			it.addLast("packet.decoder", SimplePacketDecoder())
 			it.addLast("message.decoder", OpcodeMessageDecoder())
 			it.addLast("message.reader", MessageReader())
-			it.addLast("message.encoder", GenericMessageEncoder())
+			it.addLast("message.encoder", GenericMessageEncoder(builder = PacketBuilder(sized = true)))
 			it.addLast("channel.listener", ChannelEventListener(chain))
 			
 			channel.setClient(this)

@@ -1,4 +1,7 @@
 <configuration>
+    <!-- Stop output INFO at start -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
     <property name="ENCODER_PATTERN"
               value="[%level] [%logger{0}:%line#%method] [%d{M.dd.yyyy hh:mm:ss.SSS}] [%thread] : %msg%n"/>
 
@@ -8,10 +11,10 @@
         </encoder>
     </appender>
 
-
     <root level="debug">
         <appender-ref ref="stdout"/>
     </root>
 
-    <logger name="io.netty" level="TRACE"/>
+    <logger name="io.netty" level="debug"/>
+
 </configuration>

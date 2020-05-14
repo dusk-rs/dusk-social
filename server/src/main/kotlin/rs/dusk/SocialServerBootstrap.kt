@@ -6,6 +6,7 @@ import rs.dusk.core.network.codec.CodecRepository
 import rs.dusk.core.network.connection.ConnectionSettings
 import rs.dusk.social.network.server.SocialServer
 import rs.dusk.social.network.server.codecRepositoryModule
+import rs.dusk.social.network.server.socialServerFactory
 import rs.dusk.social.repositoryModule
 import rs.dusk.social.utility.constant.SocialConstants.SOCIAL_PORT_ID
 import rs.dusk.social.utility.get
@@ -25,9 +26,10 @@ class SocialServerBootstrap {
 	fun preload() {
 		startKoin {
 			slf4jLogger()
-			modules(codecRepositoryModule, repositoryModule)
+			modules(codecRepositoryModule, repositoryModule, socialServerFactory)
 		}
-		val repository: CodecRepository = get()
+		val repository : CodecRepository = get()
+		repository.registerAll()
 	}
 	
 	fun run() {

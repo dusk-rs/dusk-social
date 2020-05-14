@@ -7,6 +7,7 @@ import rs.dusk.core.network.codec.CodecRepository
 import rs.dusk.core.network.codec.message.MessageReader
 import rs.dusk.core.network.codec.message.decode.OpcodeMessageDecoder
 import rs.dusk.core.network.codec.message.encode.GenericMessageEncoder
+import rs.dusk.core.network.codec.packet.access.PacketBuilder
 import rs.dusk.core.network.codec.packet.decode.SimplePacketDecoder
 import rs.dusk.core.network.codec.setCodec
 import rs.dusk.core.network.connection.ConnectionPipeline
@@ -16,8 +17,8 @@ import rs.dusk.core.network.connection.event.ChannelEventListener
 import rs.dusk.core.network.connection.event.ChannelEventType.EXCEPTION
 import rs.dusk.core.network.connection.event.type.ChannelExceptionEvent
 import rs.dusk.core.network.model.session.setSession
-import rs.dusk.social.network.session.HandshakeSession
 import rs.dusk.social.network.codec.handshake.HandshakeCodec
+import rs.dusk.social.network.session.HandshakeSession
 import rs.dusk.social.utility.inject
 
 /**
@@ -31,11 +32,12 @@ class SocialServer(
 	private val logger = InlineLogger()
 	
 	fun start() {
-		val factory = SocialServerFactory()
+		val factory : SocialServerFactory by inject()
+		val repository : CodecRepository by inject()
+		
 		val chain = ChannelEventChain().apply {
 			append(EXCEPTION, ChannelExceptionEvent())
 		}
-		val repository : CodecRepository by inject()
 		
 		val pipeline = ConnectionPipeline {
 			val channel = it.channel()
@@ -43,7 +45,7 @@ class SocialServer(
 			it.addLast("packet.decoder", SimplePacketDecoder())
 			it.addLast("message.decoder", OpcodeMessageDecoder())
 			it.addLast("message.reader", MessageReader())
-			it.addLast("message.encoder", GenericMessageEncoder())
+			it.addLast("message.encoder", GenericMessageEncoder(builder = PacketBuilder(sized = true)))
 			it.addLast("channel.listener", ChannelEventListener(chain))
 			
 			channel.setCodec(repository.get(HandshakeCodec::class))

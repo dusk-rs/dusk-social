@@ -11,13 +11,13 @@ import rs.dusk.core.network.model.message.Message
  * @since May 13, 2020
  */
 class IdentificationCodec : Codec() {
+	
 	override fun register() {
 		bindDecoders<IdentificationMessageDecoder<*>>()
 		bindHandlers<IdentificationMessageHandler<*>>()
 		bindEncoders<IdentificationMessageEncoder<*>>()
-		
-		println("yo we just finished dawg")
 	}
+	
 }
 
 abstract class IdentificationMessageDecoder<T : Message> : MessageDecoder<T>()

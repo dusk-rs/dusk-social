@@ -6,10 +6,12 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
 import org.koin.core.context.startKoin
 import org.koin.logger.slf4jLogger
+import rs.dusk.core.network.codec.CodecRepository
 import rs.dusk.core.network.connection.ConnectionSettings
 import rs.dusk.social.network.client.SocialClient
 import rs.dusk.social.network.client.codecRepositoryModule
 import rs.dusk.social.utility.constant.SocialConstants.SOCIAL_PORT_ID
+import rs.dusk.social.utility.get
 
 /**
  * @author Tyluur <contact@kiaira.tech>
@@ -45,6 +47,9 @@ class SocialClientBootstrap : CliktCommand() {
 			slf4jLogger()
 			modules(codecRepositoryModule)
 		}
+		
+		val repository : CodecRepository = get()
+		repository.registerAll()
 	}
 	
 	override fun run() {

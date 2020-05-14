@@ -10,9 +10,18 @@ data class World(
 	/**
 	 * The id of the world
 	 */
-	val id: Int,
+	val id : Int
+) {
 	
 	/**
 	 * The players in the world
 	 */
-	val players: MutableList<WorldPlayer>)
+	val players = mutableListOf<WorldPlayer>()
+	
+	/**
+	 * Gets a [player][WorldPlayer] by their usernanme from [the list][players]
+	 */
+	fun getPlayerByUsername(username : String) : WorldPlayer? {
+		return players.find { it.username == username }
+	}
+}

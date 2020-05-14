@@ -14,6 +14,7 @@ import rs.dusk.social.network.codec.identification.IdentificationCodec
 import rs.dusk.social.network.codec.identification.message.IdentificationConfigurationMessage
 import rs.dusk.social.network.session.IdentificationSession
 import rs.dusk.social.utility.inject
+import kotlin.system.exitProcess
 
 /**
  * @author Tyluur <contact@kiaira.tech>
@@ -23,6 +24,9 @@ class HandshakeResponseMessageHandler : HandshakeMessageHandler<HandshakeRespons
 	
 	private val logger = InlineLogger()
 	
+	/**
+	 * The repository to find codecs from
+	 */
 	private val repository : CodecRepository by inject()
 	
 	override fun handle(ctx : ChannelHandlerContext, msg : HandshakeResponseMessage) = with(msg) {
@@ -31,15 +35,17 @@ class HandshakeResponseMessageHandler : HandshakeMessageHandler<HandshakeRespons
 		if (!successful) {
 			logger.debug { "Handshake was unsuccessful, terminating connection..." }
 			channel.close()
-			return
+			exitProcess(0)
 		}
 		
+		// change attributes
 		channel.setCodec(repository.get(IdentificationCodec::class))
 		channel.setSession(IdentificationSession(channel))
 		
+		// write message with new codec
 		channel.writeAndFlush(IdentificationConfigurationMessage(client.configuration.worldId))
 		
-		logger.debug { "Identification configuration message sent after handshake was successful. " }
+		logger.debug { "Identification configuration message sent after successful handshake. " }
 	}
 	
 }

@@ -25,4 +25,19 @@ object SocialOpcodes {
 	 * The opcode that identifies the packet that encodes the identification response information
 	 */
 	const val IDENTITY_RESPONSE_OPCODE = 4
+	
+	/**
+	 * The opcode that identifies the packet that encodes a login request
+	 */
+	const val LOGIN_REQUEST_OPCODE = 5
+	
+	/**
+	 * The opcode that identifies the packet (client -> server) that encodes a private chat status change
+	 */
+	const val PRIVATE_CHAT_STATUS_CHANGE_NOTIFICATION_OPCODE = 10
+	
+	/**
+	 * The opcode that identifies the packet (server -> client[s]) that encodes a private chat status change
+	 */
+	const val PRIVATE_CHAT_STATUS_CHANGE_RELAY_OPCODE = 11
 }

@@ -1,5 +1,6 @@
 package rs.dusk.social.network.server
 
+import org.koin.dsl.module
 import rs.dusk.core.network.connection.ConnectionFactory
 import rs.dusk.core.network.connection.ConnectionPipeline
 import rs.dusk.core.network.connection.event.ChannelEventChain
@@ -21,4 +22,8 @@ class SocialServerFactory : ConnectionFactory() {
 		server.configure(pipeline)
 		server.bind()
 	}
+}
+
+val socialServerFactory = module {
+	single { SocialServerFactory() }
 }
